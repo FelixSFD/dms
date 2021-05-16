@@ -5,10 +5,12 @@ RUN gradle build --no-daemon
 
 FROM dms-base-runtime:dev
 
-EXPOSE 8080
+EXPOSE 8888
 
 RUN mkdir /app
 
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/dms.jar
 
-ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/dms.jar"]
+WORKDIR /home/gradle/src/
+
+ENTRYPOINT ["java", "-Dvaadin.productionMode=true", "-XX:+UseContainerSupport", "-jar","/app/dms.jar"]
