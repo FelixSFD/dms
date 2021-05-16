@@ -1,7 +1,9 @@
 FROM gradle:6.9.0-jdk11-openj9 AS build
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
-RUN gradle build --no-daemon
+#RUN gradle build --no-daemon
+RUN chmod +x gradlew
+RUN ./gradlew -Pvaadin.productionMode --stacktrace --no-daemon
 
 FROM dms-base-runtime:dev
 
